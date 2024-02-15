@@ -14,7 +14,13 @@
               class="form-control"
               formControlName="username"
               >
-               <span class="help-block" *ngIf="!signupForm.get('userData.username').valid && signupForm.get('userData.username').touched">Please enter a valid username.</span>
+               <span 
+                 class="help-block" 
+                  *ngIf="!signupForm.get('userData.username').valid && signupForm.get('userData.username').touched"
+                  >
+                  <span *ngIf="signupForm.get('userData.username').hasError('nameIsForbidden')">This name  is invalid.</span>
+                  <span *ngIf="signupForm.get('userData.username').hasError('required')">This field is required.</span>
+              </span>
           </div>
           <div class="form-group">
             <label for="email">email</label>
@@ -23,12 +29,11 @@
               id="email"
               class="form-control"
               formControlName="email"
-  
               >
               <span class="help-block" *ngIf="signupForm.get('userData.email').invalid && signupForm.get('userData.email').touched">Please enter a valid email.</span>
           </div>
         </div>
-        
+
         <div class="radio" *ngFor="let gender of genders">
           <label>
             <input
@@ -37,6 +42,21 @@
               formControlName="gender"
               >{{ gender }}
           </label>
+        </div>
+        <div formArrayName="hobbies">
+            <h3>Your hobbies</h3>
+              <div class="form-group"  *ngFor="let hobbyControl of getControls(); let i =index">
+                 <input 
+                 type="text" 
+                 class="form-control"
+                 [formControlName]="i"
+                  >
+              </div>
+            <button 
+              class="btn btn-default" 
+              type="button"
+              (click)="onAddHobby()"
+              >Your Hobby</button>
         </div>
         <span class="help-block" *ngIf="!signupForm.valid && signupForm.touched">Please enter a valid data.</span>
         <button class="btn btn-primary" type="submit">Submit</button>
