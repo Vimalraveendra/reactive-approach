@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
       this.signupForm=new FormGroup({
         userData:new FormGroup({
           username:new FormControl(null,[Validators.required,CustomValidators.forbiddenNames.bind(this)]),
-          email:new FormControl(null,[Validators.required,Validators.email,],this.forbiddenEmails),
+          email:new FormControl(null,[Validators.required,Validators.email,],CustomValidators.asyncForbiddenEmails),
         }),
           gender:new FormControl('male'),
           hobbies:new FormArray([])
@@ -72,16 +72,16 @@ export class AppComponent implements OnInit {
   //   }
   // }
 
-  forbiddenEmails(control:FormControl):Promise<any>|Observable<any>{
-      const promise = new Promise<any>((resolve,reject)=>{
-         setTimeout(()=>{
-            if(control.value==="test@gmail.com"){
-              resolve({'emailIsForbidden':true})
-            }else{
-              resolve(null)
-            }
-         },1500)
-      })
-      return promise;
-  }
+  // forbiddenEmails(control:FormControl):Promise<any>|Observable<any>{
+  //     const promise = new Promise<any>((resolve,reject)=>{
+  //        setTimeout(()=>{
+  //           if(control.value==="test@gmail.com"){
+  //             resolve({'emailIsForbidden':true})
+  //           }else{
+  //             resolve(null)
+  //           }
+  //        },1500)
+  //     })
+  //     return promise;
+  // }
 }
